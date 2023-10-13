@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* CSS code */
+        body {
+            background-image: url('https://c02.purpledshub.com/uploads/sites/48/2023/02/why-sky-blue-2db86ae.jpg?w=1175&webp=1'); /* Replace 'background.jpg' with the path to your background image file */
+            background-size: cover; /* This property ensures the background image covers the entire body */
+            background-repeat: no-repeat; /* This property prevents the background image from repeating */
+        }
+
+        /* Style for the form container */
+    .form-container {
+        text-align: center; /* Center align the content inside the container */
+    }
+
+    /* Define a CSS class for the button */
+    .custom-button {
+        /* Set the width and height of the button */
+        width: 150px; /* Set your desired width */
+        height: 40px; /* Set your desired height */
+        /* You can also customize other button styles like background color, text color, etc. */
+        background-color: #4CAF50; /* Green background color */
+        color: white; /* White text color */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Optional: Rounded corners */
+        font-size: 16px; /* Optional: Set font size */
+    }
+
+    button:hover {
+            background-color: #0056b3; /* Button background color on hover */
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Prediction</title>
+</head>
+<body>
+    <!--<img src="R.jfif" alt="not available" width="720" height="480" style="background-image: url('background.jpg'); background-size: cover;">-->
+
+    <center><h1>Weather Prediction</h1></center>
+
+    <!-- Display the fetched sensor data and predicted result -->
+    <div>
+        <center>
+        <h2>Sensor Data</h2>
+        <h4>Temperature: <span id="temperature"></span></h4>
+        <h4>Dew Point: <span id="dew_point"></span></h4>
+        <h4>Humidity: <span id="humidity"></span></h4>
+        <h4>Wind Speed: <span id="wind_speed"></span></h4>
+        <h4>Pressure: <span id="pressure"></span></h4>
+        </center>
+    </div>
+<center>
+    <!--<div>
+    <form method="POST" action="/predict">
+
+        <button type="submit">Predict</button>
+    </form>
+        <h2>Predicted Weather</h2>
+    </div>
+    -->
+    <div class="form-container">
+        <form method="POST" action="/predict">
+            <!-- Apply a class to the button for styling -->
+            <button type="submit" class="custom-button">Predict</button>
+        </form>
+        <h2>Predicted Weather</h2>
+    </div>
+
+
+    {% if prediction %}
+    <h2>{{ prediction }}</h2>
+    {% endif %}
+    {% if error %}
+    <p>Error: {{ error }}</p>
+    {% endif %}
+
+</center>
+</body>
+
+<!-- Add JavaScript to update the displayed data -->
+<script>
+    // Function to update displayed data
+    function updateData(data) {
+        document.getElementById("temperature").textContent = data.temperature;
+        document.getElementById("dew_point").textContent = data.dew_point;
+        document.getElementById("humidity").textContent = data.humidity;
+        document.getElementById("wind_speed").textContent = data.wind_speed;
+        document.getElementById("pressure").textContent = data.pressure;
+    }
+
+    // Fetch data from the server on page load
+    fetch('/get_sensor_data')
+        .then(response => response.json())
+        .then(data => updateData(data))
+        .catch(error => console.error(error));
+</script>
+</html>
+
